@@ -4,7 +4,6 @@ import EventList from "../EventList/EventList";
 import EventForm from "../EventForm/EventForm";
 import cuid from "cuid";
 
-//test mangosata
 const eventsFromDashboard = [
   {
     id: "1",
@@ -105,4 +104,3 @@ class EventDashboard extends Component {
 
 export default EventDashboard;
 //Dashboard
-
