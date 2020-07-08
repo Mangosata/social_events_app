@@ -4,6 +4,8 @@ import EventList from "../EventList/EventList";
 import EventForm from "../EventForm/EventForm";
 import cuid from "cuid";
 
+//Dashboard
+
 const eventsFromDashboard = [
   {
     id: "1",
