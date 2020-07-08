@@ -1,16 +1,19 @@
-import React from "react";
-import "./App.css";
-import EventDashboard from "./features/event/EventDashboard/EventDashboard";
-import Test from "./features/event/EventDashboard/Test";
+import React, { Component, Fragment } from "react";
+import EventDashBoard from "../../features/event/EventDashboard/EventDashboard.jsx"
+import NavBar from "../../features/nav/NavBar/NavBar";
+import { Container } from "semantic-ui-react";
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Re-vents</h1>
-      {/* <EventDashboard /> */}
-      <Test />
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Fragment>
+        <NavBar />
+        <Container className="main">
+          <EventDashBoard />
+        </Container>
+      </Fragment>
+    );
+  }
 }
 
 export default App;
