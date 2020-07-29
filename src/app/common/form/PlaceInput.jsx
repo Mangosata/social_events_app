@@ -17,48 +17,46 @@ const PlaceInput = ({
       searchOptions={options}
       onSelect={onSelect}
     >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
-        return (
-          <Form.Field error={touched && !!error}>
-            <input
-              placeholder={placeholder}
-              {...getInputProps({ placeholder, onBlur })}
-            />
-            {touched && error && (
-              <Label basic color="red">
-                {error}
-              </Label>
-            )}
-            {suggestions.length > 0 && (
-              <Segment
-                style={{
-                  marginTop: 0,
-                  postion: "absolute",
-                  zIndex: 1000,
-                  width: "100%",
-                }}
-              >
-                {loading && <div>Loading...</div>}
-                <List selection>
-                  {suggestions.map((suggestion) => (
-                    <List.Item
-                      key={suggestion.id}
-                      {...getSuggestionItemProps(suggestion)}
-                    >
-                      <List.Header>
-                        {suggestion.formattedSuggestion.mainText}
-                      </List.Header>
-                      <List.Description>
-                        {suggestion.formattedSuggestion.secondaryText}
-                      </List.Description>
-                    </List.Item>
-                  ))}
-                </List>
-              </Segment>
-            )}
-          </Form.Field>
-        );
-      }}
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <Form.Field error={touched && !!error}>
+          <input
+            placeholder={placeholder}
+            {...getInputProps({ placeholder, onBlur })}
+          />
+          {touched && error && (
+            <Label basic color="red">
+              {error}
+            </Label>
+          )}
+          {suggestions.length > 0 && (
+            <Segment
+              style={{
+                marginTop: 0,
+                position: "absolute",
+                zIndex: 1000,
+                width: "100%",
+              }}
+            >
+              {loading && <div>Loading...</div>}
+              <List selection>
+                {suggestions.map((suggestion) => (
+                  <List.Item
+                    key={suggestion.id}
+                    {...getSuggestionItemProps(suggestion)}
+                  >
+                    <List.Header>
+                      {suggestion.formattedSuggestion.mainText}
+                    </List.Header>
+                    <List.Description>
+                      {suggestion.formattedSuggestion.secondaryText}
+                    </List.Description>
+                  </List.Item>
+                ))}
+              </List>
+            </Segment>
+          )}
+        </Form.Field>
+      )}
     </PlacesAutocomplete>
   );
 };

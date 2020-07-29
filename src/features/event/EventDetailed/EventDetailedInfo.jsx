@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Segment, Grid, Icon, Button } from "semantic-ui-react";
 import EventDetailedMap from "./EventDetailedMap";
+import { format, parseISO } from "date-fns";
 
 const EventDetailedInfo = ({ event }) => {
   const [isMapOpen, showMapToggle] = useState(false);
-
   return (
     <Segment.Group>
       <Segment attached="top">
@@ -23,7 +23,12 @@ const EventDetailedInfo = ({ event }) => {
             <Icon name="calendar" size="large" color="teal" />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>{event.date}</span>
+            {event.date && (
+              <span>
+                {format(parseISO(event.date), "EEEE do LLL")} at{" "}
+                {format(parseISO(event.date), "h:mm a")}
+              </span>
+            )}
           </Grid.Column>
         </Grid>
       </Segment>
@@ -40,7 +45,7 @@ const EventDetailedInfo = ({ event }) => {
               onClick={() => showMapToggle(!isMapOpen)}
               color="teal"
               size="tiny"
-              content={isMapOpen ? "Hide Map" : "Show Map"}
+              content={isMapOpen ? "Hide map" : "Show map"}
             />
           </Grid.Column>
         </Grid>
