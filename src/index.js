@@ -13,22 +13,23 @@ import { loadEvents } from "./features/event/eventActions";
 
 const store = configureStore();
 store.dispatch(loadEvents());
-
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ScrollToTop>
-        <ReduxToastr
-          position="bottom-right"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
-        <App />
-      </ScrollToTop>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
-);
+store.firebaseAuthIsReady.then(() => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <ScrollToTop>
+          <ReduxToastr
+            position="bottom-right"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+          />
+          <App />
+        </ScrollToTop>
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById("root")
+  );
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
