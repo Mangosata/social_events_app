@@ -11,14 +11,48 @@ import {
 import DropzoneInput from "./DropzoneInput";
 import CropperInput from "./CropperInput";
 import { connect } from "react-redux";
-import { uploadProfileImage } from "../../userActions";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import {
+  uploadProfileImage,
+  deletePhoto,
+  setMainPhoto,
+} from "../../userActions";
 import { toastr } from "react-redux-toastr";
+import UserPhotos from "./UserPhotos";
+
+const query = ({ auth }) => {
+  return [
+    {
+      collection: "users",
+      doc: auth.uid,
+      subcollections: [{ collection: "photos" }],
+      storeAs: "photos",
+    },
+  ];
+};
 
 const actions = {
   uploadProfileImage,
+  deletePhoto,
+  setMainPhoto,
 };
 
-const PhotosPage = ({ uploadProfileImage }) => {
+const mapState = (state) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.auth,
+  photos: state.firestore.ordered.photos,
+  loading: state.async.loading,
+});
+
+const PhotosPage = ({
+  uploadProfileImage,
+  photos,
+  profile,
+  deletePhoto,
+  setMainPhoto,
+  loading,
+}) => {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
 
@@ -42,6 +76,22 @@ const PhotosPage = ({ uploadProfileImage }) => {
   const handleCancelCrop = () => {
     setFiles([]);
     setImage(null);
+  };
+
+  const handleDeletePhoto = async (photo) => {
+    try {
+      await deletePhoto(photo);
+    } catch (error) {
+      toastr.error("Oops", error.message);
+    }
+  };
+
+  const handleSetMainPhoto = async (photo) => {
+    try {
+      await setMainPhoto(photo);
+    } catch (error) {
+      toastr.error("Oops", error.message);
+    }
   };
 
   return (
@@ -75,12 +125,14 @@ const PhotosPage = ({ uploadProfileImage }) => {
               />
               <Button.Group>
                 <Button
+                  loading={loading}
                   onClick={handleUploadImage}
                   style={{ width: "100px" }}
                   positive
                   icon="check"
                 />
                 <Button
+                  disabled={loading}
                   onClick={handleCancelCrop}
                   style={{ width: "100px" }}
                   color="red"
@@ -93,26 +145,17 @@ const PhotosPage = ({ uploadProfileImage }) => {
       </Grid>
 
       <Divider />
-      <Header sub color="teal" content="All Photos" />
-
-      <Card.Group itemsPerRow={5}>
-        <Card>
-          <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-          <Button positive>Main Photo</Button>
-        </Card>
-
-        <Card>
-          <Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-          <div className="ui two buttons">
-            <Button basic color="green">
-              Main
-            </Button>
-            <Button basic icon="trash" color="red" />
-          </div>
-        </Card>
-      </Card.Group>
+      <UserPhotos
+        photos={photos}
+        profile={profile}
+        deletePhoto={handleDeletePhoto}
+        setMainPhoto={handleSetMainPhoto}
+      />
     </Segment>
   );
 };
 
-export default connect(null, actions)(PhotosPage);
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect((auth) => query(auth))
+)(PhotosPage);
