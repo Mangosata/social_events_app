@@ -1,12 +1,10 @@
 import React, { useState, useEffect, Fragment } from "react";
 import {
-  Image,
   Segment,
   Header,
   Divider,
   Grid,
   Button,
-  Card,
 } from "semantic-ui-react";
 import DropzoneInput from "./DropzoneInput";
 import CropperInput from "./CropperInput";
@@ -40,7 +38,7 @@ const actions = {
 
 const mapState = (state) => ({
   auth: state.firebase.auth,
-  profile: state.firebase.auth,
+  profile: state.firebase.profile,
   photos: state.firestore.ordered.photos,
   loading: state.async.loading,
 });

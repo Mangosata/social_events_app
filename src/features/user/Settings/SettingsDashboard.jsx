@@ -15,10 +15,12 @@ const actions = {
   updateProfile,
 };
 
-const mapState = (state) => ({
-  providerId: state.firebase.auth.providerData[0].providerId,
-  user: state.firebase.auth,
-});
+const mapState = (state) => {
+  return {
+    providerId: state.firebase.auth.providerData[0].providerId,
+    user: state.firebase.profile,
+  };
+};
 
 const SettingsDashboard = ({
   updatePassword,
