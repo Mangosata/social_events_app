@@ -39,9 +39,9 @@ const PlaceInput = ({
             >
               {loading && <div>Loading...</div>}
               <List selection>
-                {suggestions.map((suggestion) => (
+                {suggestions.map((suggestion, index) => (
                   <List.Item
-                    key={suggestion.id}
+                    key={index}
                     {...getSuggestionItemProps(suggestion)}
                   >
                     <List.Header>

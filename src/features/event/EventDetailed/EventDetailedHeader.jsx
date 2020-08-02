@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 const eventImageStyle = {
   filter: "brightness(30%)",
@@ -30,7 +30,7 @@ const EventDetailedHeader = ({
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
         <Image
-          src={`/assets/categoryImages/${event.category}.jpg`}
+          src={`/assets/categoryImages/${event && event.category}.jpg`}
           fluid
           style={eventImageStyle}
         />
@@ -41,14 +41,24 @@ const EventDetailedHeader = ({
               <Item.Content>
                 <Header
                   size="huge"
-                  content={event.title}
+                  content={event && event.title}
                   style={{ color: "white" }}
                 />
                 <p>
-                  {event.date && format(parseISO(event.date), "EEEE do LLLL")}
+                  {event &&
+                    event.date &&
+                    format(event.date.toDate(), "EEEE do LLLL")}
                 </p>
                 <p>
-                  Hosted by <strong>{event.hostedBy}</strong>
+                  Hosted by{" "}
+                  <strong>
+                    <Link
+                      to={`/profile/${event.hostUid}`}
+                      style={{ color: "white" }}
+                    >
+                      {event && event.hostedBy}
+                    </Link>
+                  </strong>
                 </p>
               </Item.Content>
             </Item>
@@ -64,16 +74,12 @@ const EventDetailedHeader = ({
                 Cancel My Place
               </Button>
             )}
-            {!isGoing && authenticated && (
-              <Button
-                loading={loading}
-                onClick={() => goingToEvent(event)}
-                color="teal"
-              >
+            {!isGoing && (
+              <Button onClick={() => goingToEvent(event)} color="teal">
                 JOIN THIS EVENT
               </Button>
             )}
-            {!authenticated && (
+            {/* {
               <Button
                 loading={loading}
                 onClick={() => openModal("UnauthModal")}
@@ -81,7 +87,7 @@ const EventDetailedHeader = ({
               >
                 JOIN THIS EVENT
               </Button>
-            )}
+            } */}
           </Fragment>
         )}
 

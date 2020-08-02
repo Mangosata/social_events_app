@@ -7,26 +7,21 @@ import UserDetailedSidebar from "./UserDetailedSidebar";
 import UserDetailedPhotos from "./UserDetailedPhotos";
 import UserDetailedEvents from "./UserDetailedEvents";
 import UserDetailedDescription from "./UserDetailedDescription";
-// import { userDetailedQuery } from '../userQueries';
 import LoadingComponent from "../../../app/layout/LoadingComponent";
-// import { getUserEvents } from '../userActions';
-
-const query = ({ auth }) => {
-  return [
-    {
-      collection: "users",
-      doc: auth.uid,
-      subcollections: [{ collection: "photos" }],
-      storeAs: "photos",
-    },
-  ];
-};
+import { userDetailedQuery } from "../userQueries";
 
 const mapState = (state, ownProps) => {
   let userUid = null;
   let profile = {};
-  profile = state.firebase.profile;
-  console.log(profile)
+
+  if (ownProps.match.params.id === state.auth.uid) {
+    profile = state.firebase.profile;
+  } else {
+    profile =
+      !isEmpty(state.firestore.ordered.profile) &&
+      state.firestore.ordered.profile[0];
+    userUid = ownProps.match.params.id;
+  }
 
   return {
     profile,
@@ -76,4 +71,8 @@ class UserDetailedPage extends Component {
 export default connect(
   mapState,
   actions
-)(firestoreConnect((auth) => query(auth))(UserDetailedPage));
+)(
+  firestoreConnect((auth, userUid) => userDetailedQuery(auth, userUid))(
+    UserDetailedPage
+  )
+);
