@@ -14,7 +14,12 @@ class EventListItem extends Component {
         <Segment>
           <Item.Group>
             <Item>
-              <Item.Image size="tiny" circular src={event.hostPhotoURL} />
+              <Item.Image
+                size="tiny"
+                circular
+                src={event.hostPhotoURL}
+                style={{ height: "80px", width: "80px" }}
+              />
               <Item.Content>
                 <Item.Header as={Link} to={`/events/${event.id}`}>
                   {event.title}

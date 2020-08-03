@@ -9,6 +9,7 @@ import UserDetailedEvents from "./UserDetailedEvents";
 import UserDetailedDescription from "./UserDetailedDescription";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { userDetailedQuery } from "../userQueries";
+import { getUserEvents } from "../userActions";
 
 const mapState = (state, ownProps) => {
   let userUid = null;
@@ -35,10 +36,19 @@ const mapState = (state, ownProps) => {
 };
 
 const actions = {
-  // getUserEvents
+  getUserEvents,
 };
 
 class UserDetailedPage extends Component {
+  async componentDidMount() {
+    let events = await this.props.getUserEvents(this.props.userUid);
+    console.log(events);
+  }
+
+  changeTab = (e, data) => {
+    this.props.getUserEvents(this.props.userUid, data.activeIndex);
+  };
+
   render() {
     const {
       profile,
