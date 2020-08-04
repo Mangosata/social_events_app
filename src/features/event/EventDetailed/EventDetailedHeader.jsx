@@ -74,10 +74,19 @@ const EventDetailedHeader = ({
                 Cancel My Place
               </Button>
             )}
-            {!isGoing && (
+            {!isGoing && authenticated && (
               <Button
                 loading={loading}
                 onClick={() => goingToEvent(event)}
+                color="teal"
+              >
+                JOIN THIS EVENT
+              </Button>
+            )}
+            {!authenticated && (
+              <Button
+                loading={loading}
+                onClick={() => openModal("UnauthModal")}
                 color="teal"
               >
                 JOIN THIS EVENT

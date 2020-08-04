@@ -11,6 +11,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import EventForm from "../../features/event/EventForm/EventForm.jsx";
 import TestComponent from "../../features/testarea/TestComponent";
 import ModalManager from "../../features/modals/ModalManager";
+import { UserIsAuthenticated } from "../../features/auth/authWrapper";
 
 class App extends Component {
   render() {
@@ -27,12 +28,21 @@ class App extends Component {
                 <Switch key={this.props.location.key}>
                   <Route exact path="/events" component={EventDashBoard} />
                   <Route path="/events/:id" component={EventDetailedPage} />
-                  <Route path="/people" component={PeopleDashboard} />
-                  <Route path="/profile/:id" component={UserDetailedPage} />
-                  <Route path="/settings" component={SettingsDashboard} />
+                  <Route
+                    path="/people"
+                    component={UserIsAuthenticated(PeopleDashboard)}
+                  />
+                  <Route
+                    path="/profile/:id"
+                    component={UserIsAuthenticated(UserDetailedPage)}
+                  />
+                  <Route
+                    path="/settings"
+                    component={UserIsAuthenticated(SettingsDashboard)}
+                  />
                   <Route
                     path={["/createEvent", "/manage/:id"]}
-                    component={EventForm}
+                    component={UserIsAuthenticated(EventForm)}
                   />
                   <Route path="/test" component={TestComponent} />
                 </Switch>
