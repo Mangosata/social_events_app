@@ -75,19 +75,14 @@ const EventDetailedHeader = ({
               </Button>
             )}
             {!isGoing && (
-              <Button onClick={() => goingToEvent(event)} color="teal">
-                JOIN THIS EVENT
-              </Button>
-            )}
-            {/* {
               <Button
                 loading={loading}
-                onClick={() => openModal("UnauthModal")}
+                onClick={() => goingToEvent(event)}
                 color="teal"
               >
                 JOIN THIS EVENT
               </Button>
-            } */}
+            )}
           </Fragment>
         )}
 

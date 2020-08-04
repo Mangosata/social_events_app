@@ -35,6 +35,7 @@ const mapState = (state, ownProps) => {
   return {
     initialValues: event,
     event,
+    loading: state.async.loading,
   };
 };
 
@@ -139,6 +140,7 @@ class EventForm extends Component {
       pristine,
       event,
       cancelToggle,
+      loading,
     } = this.props;
     return (
       <Grid>
@@ -201,6 +203,7 @@ class EventForm extends Component {
               />
               <Button
                 disabled={invalid || submitting || pristine}
+                loading={loading}
                 positive
                 type="submit"
               >
@@ -213,6 +216,7 @@ class EventForm extends Component {
                     : () => history.push("/events")
                 }
                 type="button"
+                disabled={loading}
               >
                 Cancel
               </Button>

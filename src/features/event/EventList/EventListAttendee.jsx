@@ -14,7 +14,6 @@ class EventListAttendee extends Component {
             size="mini"
             circular
             src={attendee.photoURL}
-            style={{ height: "35px", width: "35px" }}
           />
         </List.Item>
       </Fragment>
