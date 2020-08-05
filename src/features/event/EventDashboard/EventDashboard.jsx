@@ -1,5 +1,5 @@
 import React, { Component, createRef } from "react";
-import { Grid, Button, Loader } from "semantic-ui-react";
+import { Grid, Loader } from "semantic-ui-react";
 import { connect } from "react-redux";
 import EventList from "../EventList/EventList";
 import { getEventsForDashboard } from "../eventActions";
@@ -16,7 +16,7 @@ const query = [
 ];
 
 const mapState = (state) => ({
-  events: state.events,
+  events: state.events.events,
   loading: state.async.loading,
   activities: state.firestore.ordered.activity,
 });
